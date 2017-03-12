@@ -1,6 +1,7 @@
 module.exports = function(grunt){
 	grunt.initConfig({
 		dirs: {
+			dir: 'assets',
 		    lessDir: 'assets/less',
 		    cssDir: 'assets/css',
 		    jsDir: 'assets/js',
@@ -95,6 +96,20 @@ module.exports = function(grunt){
 		}
 	});
 
+	grunt.loadNpmTasks('grunt-contrib-htmlmin');
+	grunt.config('htmlmin', {
+		prd: {
+			options: {                              
+				removeComments: true,
+		        collapseWhitespace: true
+			},
+			files: {                                   
+		        'index.html': '<%= dirs.dir %>/index.html'     
+		      }
+		}                                    
+	});
+
+
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.config('watch', {
 		css: {
@@ -112,5 +127,5 @@ module.exports = function(grunt){
 
 	// Tasks
 	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('production', ['cssmin:prd', 'uglify:prd', 'imagemin:prd']);
+	grunt.registerTask('production', ['cssmin:prd', 'uglify:prd', 'htmlmin:prd', 'imagemin:prd']);
 };
